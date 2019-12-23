@@ -1,0 +1,24 @@
+{
+  "name": "margarine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless": "^1.60.4",
+    "serverless-domain-manager": "^3.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mleone10/margarine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mleone10/margarine/issues"
+  },
+  "homepage": "https://github.com/mleone10/margarine#readme"
+}

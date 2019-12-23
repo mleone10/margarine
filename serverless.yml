@@ -1,0 +1,28 @@
+service: margarine
+
+plugins:
+  - serverless-domain-manager
+
+frameworkVersion: '>=1.28.0 <2.0.0'
+
+provider:
+  name: aws
+  runtime: go1.x
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  posts:
+    handler: bin/posts
+    events:
+      - http:
+          path: posts
+          method: get
+
+custom:
+  customDomain:
+    domainName: 'margarine.marioleone.me'
