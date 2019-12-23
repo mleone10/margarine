@@ -1,5 +1,5 @@
 # Margarine
-> Blogging API
+> Serverless blogging API
 
 ## Setup
 * Run `npm install` to install dependencies
