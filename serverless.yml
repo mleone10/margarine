@@ -12,6 +12,7 @@ provider:
     - Effect: 'Allow'
       Action:
         - 'dynamodb:Scan'
+        - 'dynamodb:GetItem'
       Resource:
         - 'arn:aws:dynamodb:us-east-1:438693460185:table/margarine-posts'
 

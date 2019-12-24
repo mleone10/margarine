@@ -7,14 +7,28 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
+type Post struct {
+	Id       int    `json:"id"`
+	Title    string `json:"title"`
+	Subtitle string `json:"subtitle"`
+}
+
 type Response events.APIGatewayProxyResponse
 type Request events.APIGatewayProxyRequest
 
 func Handler(req Request) (Response, error) {
-	count, _ := getPosts()
+	posts, err := getPosts()
+	if err != nil {
+		return Response{
+			StatusCode: 500,
+			Body: safeMarshal(map[string]interface{}{
+				"message": "Failed to retrieve posts from database",
+			}),
+		}, nil
+	}
 
 	body, err := json.Marshal(map[string]interface{}{
-		"count": count,
+		"posts": posts,
 	})
 
 	if err != nil {
@@ -31,4 +45,9 @@ func Handler(req Request) (Response, error) {
 
 func main() {
 	lambda.Start(Handler)
+}
+
+func safeMarshal(j map[string]interface{}) string {
+	s, _ := json.Marshal(j)
+	return string(s)
 }
