@@ -2,28 +2,24 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/mleone10/margarine/internal/posts"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type Post struct {
-	Id       int    `json:"id"`
-	Title    string `json:"title"`
-	Subtitle string `json:"subtitle"`
-}
-
 type Response events.APIGatewayProxyResponse
 type Request events.APIGatewayProxyRequest
 
 func Handler(req Request) (Response, error) {
-	posts, err := getPosts()
+	posts, err := posts.GetPosts()
 	if err != nil {
+		body, _ := json.Marshal(map[string]interface{}{
+			"message": "Failed to retrieve posts from database",
+		})
 		return Response{
 			StatusCode: 500,
-			Body: safeMarshal(map[string]interface{}{
-				"message": "Failed to retrieve posts from database",
-			}),
+			Body:       string(body),
 		}, nil
 	}
 
@@ -45,9 +41,4 @@ func Handler(req Request) (Response, error) {
 
 func main() {
 	lambda.Start(Handler)
-}
-
-func safeMarshal(j map[string]interface{}) string {
-	s, _ := json.Marshal(j)
-	return string(s)
 }

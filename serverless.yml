@@ -24,7 +24,7 @@ package:
 
 functions:
   posts:
-    handler: bin/posts
+    handler: bin/getAllPosts
     events:
       - http:
           path: posts

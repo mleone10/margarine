@@ -1,4 +1,4 @@
-package main
+package posts
 
 import (
 	"log"
@@ -10,9 +10,15 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
+type Post struct {
+	Id       int    `json:"id"`
+	Title    string `json:"title"`
+	Subtitle string `json:"subtitle"`
+}
+
 var db = dynamodb.New(session.New(), aws.NewConfig().WithRegion("us-east-1"))
 
-func getPosts() ([]Post, error) {
+func GetPosts() ([]Post, error) {
 	input := &dynamodb.ScanInput{
 		TableName: aws.String("margarine-posts"),
 	}
@@ -38,7 +44,7 @@ func getPosts() ([]Post, error) {
 	return posts, nil
 }
 
-func getPost(id int) (*Post, error) {
+func GetPost(id int) (*Post, error) {
 	input := &dynamodb.GetItemInput{
 		TableName: aws.String("margarine-posts"),
 		Key: map[string]*dynamodb.AttributeValue{
