@@ -11,8 +11,10 @@ type Response events.APIGatewayProxyResponse
 type Request events.APIGatewayProxyRequest
 
 func Handler(req Request) (Response, error) {
+	count, _ := getPosts()
+
 	body, err := json.Marshal(map[string]interface{}{
-		"message": "Hello there!",
+		"count": count,
 	})
 
 	if err != nil {
