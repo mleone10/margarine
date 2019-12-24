@@ -3,24 +3,18 @@ package main
 import (
 	"encoding/json"
 	"github.com/mleone10/margarine/internal/posts"
+	"github.com/mleone10/margarine/internal/response"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type Response events.APIGatewayProxyResponse
 type Request events.APIGatewayProxyRequest
 
-func Handler(req Request) (Response, error) {
+func Handler(req Request) (response.Response, error) {
 	posts, err := posts.GetPosts()
 	if err != nil {
-		body, _ := json.Marshal(map[string]interface{}{
-			"message": "Failed to retrieve posts from database",
-		})
-		return Response{
-			StatusCode: 500,
-			Body:       string(body),
-		}, nil
+		return response.ServerErrorWithMessage("Failed to retrieve posts from database"), nil
 	}
 
 	body, err := json.Marshal(map[string]interface{}{
@@ -28,15 +22,13 @@ func Handler(req Request) (Response, error) {
 	})
 
 	if err != nil {
-		return Response{StatusCode: 500}, nil
+		return response.ServerError(), nil
 	}
 
-	resp := Response{
+	return response.Response{
 		StatusCode: 200,
 		Body:       string(body),
-	}
-
-	return resp, nil
+	}, nil
 }
 
 func main() {
