@@ -23,12 +23,22 @@ package:
     - ./bin/**
 
 functions:
-  posts:
+  getAllPosts:
     handler: bin/getAllPosts
     events:
       - http:
           path: posts
           method: get
+  getOnePost:
+    handler: bin/getOnePost
+    events:
+      - http:
+          path: posts/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
 
 resources:
   Resources:

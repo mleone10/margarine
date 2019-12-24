@@ -23,3 +23,19 @@ func ServerErrorWithMessage(message string) Response {
 		Body:       string(body),
 	}
 }
+
+func ClientErrorWithMessage(message string) Response {
+	body, _ := json.Marshal(map[string]interface{}{
+		"message": message,
+	})
+	return Response{
+		StatusCode: 400,
+		Body:       string(body),
+	}
+}
+
+func NotFound() Response {
+	return Response{
+		StatusCode: 404,
+	}
+}
