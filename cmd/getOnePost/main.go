@@ -34,10 +34,7 @@ func Handler(req Request) (response.Response, error) {
 		return response.ServerError(), nil
 	}
 
-	return response.Response{
-		StatusCode: 200,
-		Body:       string(body),
-	}, nil
+	return response.Success(string(body)), nil
 }
 
 func main() {
